@@ -17,8 +17,8 @@ function fakeBackend() {
             // wrap in timeout to simulate server api call
             setTimeout(handleRoute, 500);
 
-            function handleRoute() {   
-                const { method } = opts;             
+            function handleRoute() {
+                const { method } = opts;
                 switch (true) {
                     case url.endsWith('/users/authenticate') && method === 'POST':
                         return authenticate();
@@ -59,11 +59,11 @@ function fakeBackend() {
 
             function refreshToken() {
                 const refreshToken = getRefreshToken();
-                
+
                 if (!refreshToken) return unauthorized();
 
                 const user = users.find(x => x.refreshTokens.includes(refreshToken));
-                
+
                 if (!user) return unauthorized();
 
                 // replace old refresh token with a new one and save
@@ -82,10 +82,10 @@ function fakeBackend() {
 
             function revokeToken() {
                 if (!isLoggedIn()) return unauthorized();
-                
+
                 const refreshToken = getRefreshToken();
                 const user = users.find(x => x.refreshTokens.includes(refreshToken));
-                
+
                 // revoke token and save
                 user.refreshTokens = user.refreshTokens.filter(x => x !== refreshToken);
                 localStorage.setItem(usersKey, JSON.stringify(users));
